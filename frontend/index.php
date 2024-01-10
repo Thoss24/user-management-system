@@ -1,5 +1,6 @@
 <?php
-require_once 'backend/database.php';
+require_once '/opt/lampp/htdocs/user-management-system/backend/database.php';
+ini_set("display_errors", "On");
 ?>
 
 <!DOCTYPE html>
@@ -11,6 +12,13 @@ require_once 'backend/database.php';
 </head>
 <body>
     <h1>Project</h1>
-    
+
+    <?php
+    $sql = "SELECT * FROM staff_members";
+    $result = mysqli_query($conn, $sql);
+    print_r($result);
+
+    ?>
+
 </body>
 </html>
