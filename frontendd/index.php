@@ -14,9 +14,17 @@ ini_set("display_errors", "On");
     <h1>Project</h1>
 
     <?php
-    $sql = "SELECT * FROM staff_members";
+    $sql = "SELECT * FROM staff_members WHERE id = 2";
     $result = mysqli_query($conn, $sql);
-    print_r($result);
+    $rowCount = mysqli_num_rows($result);
+    
+    if ($rowCount > 0) {
+        while($row = mysqli_fetch_assoc($result)) {
+            print_r($row);
+        }
+    } else {
+        echo "No results found";
+    }
 
     ?>
 
