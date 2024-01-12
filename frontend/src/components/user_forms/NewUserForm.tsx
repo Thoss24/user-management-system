@@ -1,7 +1,13 @@
 import classes from './NewUserForm.module.css';
 import { useState, useRef } from 'react';
+import { useAppSelector } from '../../hooks/hooks';
+import { usersActions } from '../../store/users_slice';
+import { useAppDispatch } from '../../hooks/hooks';
+import { UserRowSql } from '../../models/user_sql_row';
 
 const NewUserForm: React.FC<{}> = () => {
+
+    const dispatch = useAppDispatch();
 
     const [name, setName] = useState<string>('');
     const [email, setEmail] = useState<string>('');
@@ -11,27 +17,33 @@ const NewUserForm: React.FC<{}> = () => {
     const emailInputRef = useRef<HTMLInputElement>(null);
     const positionInputRef = useRef<HTMLInputElement>(null);
 
+    const userState = useAppSelector(state => state.users.users);
+    const newUserId = userState.length + 1
+
     const addNewUserHandler = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
 
-        const user = {
+        const user: UserRowSql = {
+            id: newUserId,
             name: name,
             email: email,
-            position: position
+            position: position,
+            lastEdited: String(Date.now())
         };
 
         try {
             const response = await fetch('http://localhost/user-management-system/backend/api.php', {
                 method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json; charset=UTF-8',
-                },
-                body: JSON.stringify({name})
+                body: JSON.stringify(user)
             });
+
+            if (!response.ok) {
+                throw Error("Something went wrong!")
+            }
     
             const data = await response.json();
-    
-            console.log(data)
+            
+            dispatch(usersActions.addUser(user))
 
             setName('')
             setEmail('')
@@ -44,7 +56,7 @@ const NewUserForm: React.FC<{}> = () => {
     };
 
     return (
-        <form action="" className={classes['new-user-form']} onSubmit={addNewUserHandler}>
+        <form action="POST" className={classes['new-user-form']} onSubmit={addNewUserHandler}>
         <fieldset >
         <legend>Add new user</legend>
         <div className={classes['input-section']}>
