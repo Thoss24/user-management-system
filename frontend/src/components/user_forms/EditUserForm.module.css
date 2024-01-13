@@ -1,0 +1,32 @@
+.edit-user-form {
+    display: flex;
+    flex-direction: column;
+    position: fixed;
+    top: 10%;
+    z-index: 10;
+    left: 50;
+    background-color: white;
+    padding: 10px;
+    border-radius: 8px;
+}
+
+.edit-user-form fieldset {
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.edit-user-form fieldset div {
+    padding: 10px;
+    display: flex;
+    flex-direction: row;
+    gap: 4px;
+}
+
+.edit-form-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+}

@@ -3,13 +3,13 @@ export class UserRowSql {
     name: string;
     email: string;
     position: string;
-    lastEdited: string;
+    last_edited: string;
 
-    constructor(id: number, name: string, email: string, position: string, lastEdited: string) {
+    constructor(id: number, name: string, email: string, position: string, last_edited: string) {
         this.id = id;
         this.name = name;
         this.email = email;
         this.position = position;
-        this.lastEdited = lastEdited;
+        this.last_edited = last_edited;
     }
 }

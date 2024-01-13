@@ -12,11 +12,16 @@ const usersSlice = createSlice({
     initialState: defaultUsersState,
     reducers: {
         updateUsers(state, action: PayloadAction<UserRowSql[]>) {
+            console.log(action.payload)
             state.users = action.payload
+            console.log(state.users)
         },
         addUser(state, action: PayloadAction<UserRowSql>) {
-            state.users.concat(action.payload)
-            console.log(current(state.users))
+            state.users.push(action.payload)
+            console.log(action.payload)
+        },
+        editUser(state, action: PayloadAction<UserRowSql>) {
+            
         }
     }
 });

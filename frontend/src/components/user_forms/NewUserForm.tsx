@@ -1,9 +1,10 @@
 import classes from './NewUserForm.module.css';
-import { useState, useRef } from 'react';
+import { useState } from 'react';
 import { useAppSelector } from '../../hooks/hooks';
 import { usersActions } from '../../store/users_slice';
 import { useAppDispatch } from '../../hooks/hooks';
 import { UserRowSql } from '../../models/user_sql_row';
+import { addUser } from '../../utility/http_requests';
 
 const NewUserForm: React.FC<{}> = () => {
 
@@ -12,10 +13,6 @@ const NewUserForm: React.FC<{}> = () => {
     const [name, setName] = useState<string>('');
     const [email, setEmail] = useState<string>('');
     const [position, setPosition] = useState<string>('');
-
-    const nameInputRef = useRef<HTMLInputElement>(null);
-    const emailInputRef = useRef<HTMLInputElement>(null);
-    const positionInputRef = useRef<HTMLInputElement>(null);
 
     const userState = useAppSelector(state => state.users.users);
     const newUserId = userState.length + 1
@@ -28,30 +25,16 @@ const NewUserForm: React.FC<{}> = () => {
             name: name,
             email: email,
             position: position,
-            lastEdited: String(Date.now())
+            last_edited: String(Date.now())
         };
 
-        try {
-            const response = await fetch('http://localhost/user-management-system/backend/api.php', {
-                method: 'POST',
-                body: JSON.stringify(user)
-            });
-
-            if (!response.ok) {
-                throw Error("Something went wrong!")
-            }
-    
-            const data = await response.json();
+        await addUser(user)
             
-            dispatch(usersActions.addUser(user))
+        dispatch(usersActions.addUser(user))
 
-            setName('')
-            setEmail('')
-            setPosition('')
-
-        } catch (error) {
-            console.error('Error:', error)
-        }
+        setName('')
+        setEmail('')
+        setPosition('')
 
     };
 
@@ -61,17 +44,17 @@ const NewUserForm: React.FC<{}> = () => {
         <legend>Add new user</legend>
         <div className={classes['input-section']}>
         <label htmlFor="name">Name</label>
-        <input type="text" id="name" name='name' ref={nameInputRef} onChange={(e) => setName(e.target.value)}/>
+        <input type="text" id="name" name='name' onChange={(e) => setName(e.target.value)}/>
         </div>
   
         <div className={classes['input-section']}>
         <label htmlFor="email">Email</label>
-        <input type="text" id="email" name='email' ref={emailInputRef} onChange={(e) => setEmail(e.target.value)}/>
+        <input type="text" id="email" name='email' onChange={(e) => setEmail(e.target.value)}/>
         </div>
   
         <div className={classes['input-section']}>
         <label htmlFor="position">Position</label>
-        <input type="text" id="position" name='position' ref={positionInputRef} onChange={(e) => setPosition(e.target.value)}/>
+        <input type="text" id="position" name='position' onChange={(e) => setPosition(e.target.value)}/>
         </div>
         <button type='submit'>Submit</button>
         </fieldset>
