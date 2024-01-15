@@ -1,8 +1,11 @@
 import { useAppDispatch } from "../../hooks/hooks";
-import { useState } from "react";
+import { useState, useContext } from "react";
 import classes from "./EditUserForm.module.css";
 import { editUser } from "../../utility/http_requests";
 import { UserRowSql } from "../../models/user_sql_row";
+import useDateTime from "../../hooks/date_time";
+import { usersActions } from "../../store/users_slice";
+import { ModalContext } from "../../store/edit_user_context_modal";
 
 const EditUserForm: React.FC<{
   name: string;
@@ -17,26 +20,40 @@ const EditUserForm: React.FC<{
 
   const dispatch = useAppDispatch();
 
+  const dateTime = useDateTime();
+
+  const editUserModalContext = useContext(ModalContext);
+
   const editUserHandler = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+
+    console.log(props.id)
 
     const user: UserRowSql = {
       id: props.id,
       name: name,
       email: email,
       position: position,
-      last_edited: String(Date.now())
+      last_edited: dateTime
     };
 
     await editUser(user);
 
+    dispatch(usersActions.editUser(user))
+
     props.hideEditForm();
+    editUserModalContext.setIsDisplaying(false)
+  };
+
+  const closeEditUserHandler = () => {
+    props.hideEditForm();
+    editUserModalContext.setIsDisplaying(false)
   };
 
   return (
     <div className={classes["edit-form-container"]}>
       <form
-        action="PATCH"
+        action=""
         className={classes["edit-user-form"]}
         onSubmit={editUserHandler}
       >
@@ -71,6 +88,7 @@ const EditUserForm: React.FC<{
           </div>
         </fieldset>
         <button type="submit">Done</button>
+        <button type="button" onClick={closeEditUserHandler}>Cancel</button>
       </form>
     </div>
   );

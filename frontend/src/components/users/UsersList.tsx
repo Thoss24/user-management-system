@@ -21,6 +21,7 @@ const UsersList: React.FC<{}> = () => {
   }, []);
 
   return (
+    <>
     <div className={classes['users-page']}> 
     <h2>Current Users</h2>
     <div className={classes['users-list']}>
@@ -37,6 +38,7 @@ const UsersList: React.FC<{}> = () => {
         ))}
     </div>
     </div>
+    </>
   );
 };
 

@@ -1,8 +1,9 @@
 <?php
 
 header('Content-Type: application/json');
-header('Access-Control-Allow-Methods: GET, POST, PATCH, PUT, DELETE, OPTIONS');
-header('Access-Control-Allow-Origin: http://localhost:3000');
+header('Access-Control-Allow-Methods: PATCH, POST, GET, OPTIONS');
+header('Access-Control-Allow-Origin: *');
+header("Access-Control-Allow-Headers: Content-Type");
 
 ini_set("display_errors", "On");
 
@@ -18,7 +19,11 @@ try {
     die("Error: " .$e->getMessage());
 }
 
-if ($_SERVER['REQUEST_METHOD'] === 'PUT') {
+if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
+    http_response_code(200);
+    exit();
+}
+else if ($_SERVER['REQUEST_METHOD'] === 'PATCH') {
 
     $requestData = json_decode(file_get_contents('php://input'), true);
     $name = $requestData['name'];
@@ -27,16 +32,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'PUT') {
     $position = $requestData['position'];
     $last_edited = $requestData['last_edited'];
 
-    echo json_encode($id);
+    // echo json_encode($id);
 
-    $stmt = $pdo->prepare("UPDATE staff_members SET name = :name, email = :email, position = :position WHERE id = :id");
+    $stmt = $pdo->prepare("UPDATE staff_members SET name = :name, email = :email, position = :position, last_edited = :last_edited WHERE id = :id");
+    $stmt->bindValue(':id', $id);
     $stmt->bindValue(':name', $name);
     $stmt->bindValue(':email', $email);
     $stmt->bindValue(':position', $position);
+    $stmt->bindValue(':last_edited', $last_edited);
     $stmt->execute();
 
     $response = array('message' => 'User updated successfully');
-    echo json_encode($response);
+    // echo json_encode($response);
 }
 else if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 

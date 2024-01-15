@@ -38,11 +38,8 @@ export const addUser = async (user: UserRowSql) => {
 export const editUser = async (user: UserRowSql) => {
   console.log(user)
   try {
-    const response = await fetch('http://localhost/user-management-system/backend/api.php?_method=PUT', {
-        method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json',
-        },
+    const response = await fetch('http://localhost/user-management-system/backend/api.php', {
+        method: 'PATCH',
         body: JSON.stringify(user)
     });
 

@@ -21,7 +21,14 @@ const usersSlice = createSlice({
             console.log(action.payload)
         },
         editUser(state, action: PayloadAction<UserRowSql>) {
-            
+            const existingUserIndex = state.users.findIndex(user => user.id === action.payload.id);
+            const existingUser = state.users[existingUserIndex];
+
+            if (existingUser) {
+                existingUser.email = action.payload.email;
+                existingUser.name = action.payload.name;
+                existingUser.position = action.payload.position;
+            }
         }
     }
 });

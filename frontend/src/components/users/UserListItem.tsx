@@ -1,6 +1,9 @@
 import classes from "./UsersList.module.css";
 import EditUserForm from "../user_forms/EditUserForm";
 import { useState } from "react";
+import editUserContextActions from "../../store/edit_user_context_actions";
+import { useContext } from "react";
+import { ModalContext } from "../../store/edit_user_context_modal";
 
 const UserListItem: React.FC<{
   id: number;
@@ -12,15 +15,17 @@ const UserListItem: React.FC<{
 
   const [isEditing, setIsEditing] = useState<boolean>(false);
 
+  const editUserModalContext = useContext(ModalContext);
+
   const editFormHandler = () => {
     setIsEditing((state) => {
       return !state
     })
+    editUserModalContext.setIsDisplaying(true)
   };
 
   return (
     <>
-    {isEditing && <div className={classes.background}/>}
     <div className={classes["user-shell"]}>
       <div className={classes["user-detail"]}>
         <strong>Name: </strong>

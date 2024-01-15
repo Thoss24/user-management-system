@@ -5,6 +5,7 @@ import { usersActions } from '../../store/users_slice';
 import { useAppDispatch } from '../../hooks/hooks';
 import { UserRowSql } from '../../models/user_sql_row';
 import { addUser } from '../../utility/http_requests';
+import useDateTime from '../../hooks/date_time';
 
 const NewUserForm: React.FC<{}> = () => {
 
@@ -17,6 +18,8 @@ const NewUserForm: React.FC<{}> = () => {
     const userState = useAppSelector(state => state.users.users);
     const newUserId = userState.length + 1
 
+    const dateTime = useDateTime();
+
     const addNewUserHandler = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
 
@@ -25,7 +28,7 @@ const NewUserForm: React.FC<{}> = () => {
             name: name,
             email: email,
             position: position,
-            last_edited: String(Date.now())
+            last_edited: dateTime
         };
 
         await addUser(user)

@@ -1,0 +1,6 @@
+.background {
+    height: 100%;
+    width: 100vw;
+    background-color: rgba(66, 66, 66, 0.4);
+    position: fixed;
+}
