@@ -1,7 +1,7 @@
 <?php
 
 header('Content-Type: application/json');
-header('Access-Control-Allow-Methods: PATCH, POST, GET, OPTIONS');
+header('Access-Control-Allow-Methods: PATCH, POST, GET, OPTIONS, DELETE');
 header('Access-Control-Allow-Origin: *');
 header("Access-Control-Allow-Headers: Content-Type");
 
@@ -62,6 +62,17 @@ else if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     $stmt->execute();
 } 
+else if ($_SERVER['REQUEST_METHOD'] === 'DELETE') {
+
+    $requestData = json_decode(file_get_contents('php://input'), true);
+    $id = $requestData;
+
+    $stmt = $pdo->prepare("DELETE FROM staff_members WHERE id = :id");
+    $stmt->bindValue(':id', $id);
+
+    $stmt->execute();
+    
+}
 else if ($_SERVER['REQUEST_METHOD'] === 'GET') {
 
     $stmt = $pdo->prepare("SELECT * FROM staff_members");

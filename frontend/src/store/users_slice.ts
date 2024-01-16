@@ -1,5 +1,5 @@
 import { UserStateObj } from "../models/user_state_obj";
-import { PayloadAction, current } from "@reduxjs/toolkit";
+import { PayloadAction } from "@reduxjs/toolkit";
 import { createSlice } from "@reduxjs/toolkit";
 import { UserRowSql } from "../models/user_sql_row";
 
@@ -29,6 +29,10 @@ const usersSlice = createSlice({
                 existingUser.name = action.payload.name;
                 existingUser.position = action.payload.position;
             }
+        },
+        deleteUser(state, action: PayloadAction<number>) {
+            const existingUserIndex = state.users.findIndex(user => user.id === action.payload);
+            state.users.splice(existingUserIndex, 1)
         }
     }
 });

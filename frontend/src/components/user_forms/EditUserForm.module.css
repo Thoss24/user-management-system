@@ -10,6 +10,26 @@
     border-radius: 8px;
 }
 
+.buttons-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: row;
+    margin: 2px;
+    gap: 5px;
+}
+
+.edit-user-form button {
+    padding: 3px;
+    border: 1px solid rgba(0, 0, 0, 0.5);
+    border-radius: 8px;
+}
+
+.edit-user-form button:hover {
+    background-color: lightgray;
+    cursor: pointer;
+}
+
 .edit-user-form fieldset {
     padding: 10px;
     display: flex;

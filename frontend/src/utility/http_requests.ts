@@ -33,10 +33,9 @@ export const addUser = async (user: UserRowSql) => {
 } catch (error) {
     console.error('Error:', error)
 }
-}
+};
 
 export const editUser = async (user: UserRowSql) => {
-  console.log(user)
   try {
     const response = await fetch('http://localhost/user-management-system/backend/api.php', {
         method: 'PATCH',
@@ -47,8 +46,23 @@ export const editUser = async (user: UserRowSql) => {
         throw Error("Something went wrong!")
     }
 
-
 } catch (error) {
     console.error('Error:', error)
 }
-}
+};
+
+export const deleteUser = async (id: number) => {
+  try {
+    const response = await fetch('http://localhost/user-management-system/backend/api.php', {
+      method: 'DELETE',
+      body: JSON.stringify(id)
+    });
+
+    if (!response.ok) {
+      throw new Error("Something went wrong!")
+    }
+
+  } catch (error) {
+    console.log('Error:', error)
+  }
+};

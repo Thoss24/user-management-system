@@ -87,8 +87,10 @@ const EditUserForm: React.FC<{
             />
           </div>
         </fieldset>
+        <div className={classes['buttons-container']}>
         <button type="submit">Done</button>
         <button type="button" onClick={closeEditUserHandler}>Cancel</button>
+        </div>
       </form>
     </div>
   );
