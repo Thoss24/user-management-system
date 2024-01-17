@@ -11,7 +11,7 @@ const UsersList: React.FC<{}> = () => {
 
   const usersState = useAppSelector(state => state.users.users);
 
-  const [position, setPosition] = useState<string>("all");
+  const [position, setPosition] = useState<string>("All Staff");
 
   const dispatch = useAppDispatch();
 
@@ -28,32 +28,16 @@ const UsersList: React.FC<{}> = () => {
     console.log(position)
   };
 
-  let positionFilter = (
-    <div className={classes.options}>
-    <strong>Filter by position:</strong>
-    <select
-      onChange={(e) => handleSetPositionCallback(e.target.value)}
-      name="staff_members_positions"
-      title="Filter by position"
-      id="staff_members_positions"
-    >
-      <option>All Staff</option>
-      <option>Lecturer</option>
-      <option>Reader</option>
-      <option>Senior Lecturer</option>
-      <option>Professor</option>
-    </select>
-  </div>
-  )
+  let users = usersState && position === "All Staff" ? usersState : usersState.filter(item => item.position === position);
 
   return (
     <>
     <div className={classes['users-page']}> 
     <h2>Current Users</h2>
-    {positionFilter}
+    <UsersFilters handleSetPosition={handleSetPositionCallback} position={position}/>
     <div className={classes['users-list']}>
       {usersState &&
-        usersState.filter(item => item.position === position).map((item) => (
+        users.map((item) => (
           <UserListItem
             name={item.name}
             email={item.email}
